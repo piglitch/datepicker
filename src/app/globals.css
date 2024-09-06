@@ -34,5 +34,9 @@
   background-color: rgba(250, 128, 114, 0.685);
 }
 
-/* Customizing the date picker container */
-/* Importing the Inter font */
+.tasks{
+  color: black;
+  background-color: rgba(24, 2, 27, 0.199);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  height: 500px;
+}
