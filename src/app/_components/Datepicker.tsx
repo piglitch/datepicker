@@ -37,13 +37,18 @@ export default function DatePicker() {
             }}
             onAccept={() => 
               {
-                setAccepted(!accepted);
                 setClicked(false);
               }
-            } // Accept when user is done picking
+            }
+            onClose={() => 
+              {
+                setClicked(false);
+                setDate('')
+              }
+            }
           />
         </LocalizationProvider>  
-        : <div></div> // Format the date for display
+        : ""
       }
     </div>
   );
