@@ -1,23 +1,46 @@
+import { DateContext } from './_states/DateContext';
 import MyDatePicker from './Datepicker';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 const AddTask = () => {
-  const [clicked, setClicked] = useState(false); 
+  const [clicked, setClicked] = useState(false);
+  const dateContext = useContext(DateContext);  
+  if (!dateContext) {
+    throw new Error('FirstComponent must be used within a DateProvider');
+  }
+
+  const { date, setDate } = dateContext;
+  
   return (
-    <div className='pt-12 mx-96 border-l border-r px-10 max-w-5xl'>
-      <h1 className='mb-5 text-2xl'>Add a skill</h1>
-      <div className='flex gap-2'>
-        <input className='w-2/3 p-1 border rounded-lg bg-slate-100 outline-none' placeholder='add a skill' />
-        <div className='my-auto cursor-pointer' onClick={() => setClicked(!clicked)}>📆</div>
-        <div className='my-auto cursor-pointer'>➕</div>
-      </div>
-      <div className='ml-96 p-14'>
-        {
-          clicked === true ? <MyDatePicker /> : null
-        }
+    <div className='pt-12 mx-96 border-l border-r px-10 max-w-5xl relative'>
+      <div className='mx-20'>
+        <h1 className='mb-5 text-2xl'>Add a task</h1>
+        <div className='flex gap-2'>
+          <div className='w-2/3 flex justify-end'>
+            <input
+              className='w-3/4 p-1 border border-r-0 rounded-lg rounded-r-none bg-slate-100 outline-none'
+              placeholder='Add a task'
+            />
+            <input
+              type="text"
+              disabled
+              value={date}
+              className='w-20 p-1 border rounded-lg rounded-l-none text-xs bg-slate-100'
+            />
+          </div>
+          <div className='my-auto cursor-pointer relative'>
+            <div onClick={() => setClicked(!clicked)}>📆</div>
+            {clicked && (
+              <div className='absolute top-6 left-0 bg-white shadow-lg border rounded-lg p-2 z-10'>
+                <MyDatePicker />
+              </div>
+            )}
+          </div>
+          <div className='my-auto cursor-pointer'>➕</div>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AddTask
+export default AddTask;
