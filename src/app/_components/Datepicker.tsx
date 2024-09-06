@@ -4,16 +4,21 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { useState, useContext } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { DateContext } from './_states/DateContext';
+import { Context } from './_states/Context';
 
-export default function FirstComponent() {
+export default function DatePicker() {
   const [accepted, setAccepted] = useState(false);
-  
+
+  const clickedContext = useContext(Context);
+  if (!clickedContext) {
+    throw new Error('Context must be used within a DateProvider');
+  }
+  const { clicked, setClicked } = clickedContext;
   // Use context and check for undefined
-  const dateContext = useContext(DateContext);
+  const dateContext = useContext(Context);
   
   if (!dateContext) {
-    throw new Error('FirstComponent must be used within a DateProvider');
+    throw new Error('Datepicker must be used within a DateProvider');
   }
 
   const { date, setDate } = dateContext;
@@ -30,10 +35,15 @@ export default function FirstComponent() {
                 setDate(newValue.format('YYYY-MM-DD')); // Ensure date is stored as string
               }
             }}
-            onAccept={() => setAccepted(true)} // Accept when user is done picking
+            onAccept={() => 
+              {
+                setAccepted(!accepted);
+                setClicked(false);
+              }
+            } // Accept when user is done picking
           />
         </LocalizationProvider>  
-        : <div>{date ? dayjs(date).format('DD/MM/YYYY') : "No Date Selected"}</div> // Format the date for display
+        : <div></div> // Format the date for display
       }
     </div>
   );

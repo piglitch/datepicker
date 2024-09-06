@@ -1,16 +1,25 @@
-import { DateContext } from './_states/DateContext';
-import MyDatePicker from './Datepicker';
+import { Context } from './_states/Context';
+import DatePicker from './Datepicker';
 import { useContext, useState } from 'react';
 
 const AddTask = () => {
-  const [clicked, setClicked] = useState(false);
-  const dateContext = useContext(DateContext);  
-  if (!dateContext) {
-    throw new Error('FirstComponent must be used within a DateProvider');
+  const clickedContext = useContext(Context);
+  if (!clickedContext) {
+    throw new Error('Context must be used within a DateProvider');
   }
+  const { clicked, setClicked } = clickedContext;
 
+  const dateContext = useContext(Context);  
+  if (!dateContext) {
+    throw new Error('Context must be used within a DateProvider');
+  }
   const { date, setDate } = dateContext;
   
+  const formattedDate = new Date(date).toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short'
+  });
+
   return (
     <div className='pt-12 mx-96 border-l border-r px-10 max-w-5xl relative'>
       <div className='mx-20'>
@@ -24,7 +33,7 @@ const AddTask = () => {
             <input
               type="text"
               disabled
-              value={date}
+              value={formattedDate != 'Invalid Date' ? formattedDate : 'No Date'}
               className='w-20 p-1 border rounded-lg rounded-l-none text-xs bg-slate-100'
             />
           </div>
@@ -32,7 +41,7 @@ const AddTask = () => {
             <div onClick={() => setClicked(!clicked)}>📆</div>
             {clicked && (
               <div className='absolute top-6 left-0 bg-white shadow-lg border rounded-lg p-2 z-10'>
-                <MyDatePicker />
+                <DatePicker />
               </div>
             )}
           </div>
