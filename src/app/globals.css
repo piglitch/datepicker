@@ -26,11 +26,17 @@
   background: rgba(0, 0, 0, 0.123);
   border: 1px solid rgba(0, 0, 0, 0.123);
   opacity: 80%;
-  height: 700px;
   width: 100%;
-  border-radius: 15px;
 }
 
 .days{
-  border-bottom: 2px solid rgba(0, 0, 0, 0.123);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.123);
+  background-color: rgba(250, 128, 114, 0.685);
+}
+
+.tasks{
+  color: black;
+  background-color: rgba(24, 2, 27, 0.199);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  height: 500px;
 }
